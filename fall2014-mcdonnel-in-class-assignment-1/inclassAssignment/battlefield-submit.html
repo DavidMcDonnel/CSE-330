@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<head>
+<title>Battlefield Parser</title>
+<style type="text/css">
+body{
+	width: 760px; /* how wide to make your web page */
+	background-color: teal; /* what color to make the background */
+	margin: 0 auto;
+	padding: 0;
+	font:12px/16px Verdana, sans-serif; /* default font */
+}
+div#main{
+	background-color: #FFF;
+	margin: 0;
+	padding: 10px;
+}
+div.h1{
+    text-align: center;
+}
+</style>
+</head>
+<body><div id="main">
+    <h1>Battlefield Parser</h1>
+    <br>
+    <p>Please input the ammunition, duration, and critique of the battle</p>
+    <br>
+    <form method="post" action="battlefield-process.php">
+        <label>Ammo<input type="number" name="ammo" step="1" min="0"></label>
+        <label>Soldiers<input type ="number" name="soldiers" step="1" min="1" max="10"></label>
+        <label>Duration<input type ="number" name="duration" step="any" min="1" max="10"></label>
+        <label>Critique<textarea name="critique"></textarea></label>
+        <br>
+        <input type="submit" name="submit" value="Submit">
+    </form>
+    
+    <a href="batlefield-analyze.php">View Battlefield Statistics</a>
+    
+</div></body>
+</html>

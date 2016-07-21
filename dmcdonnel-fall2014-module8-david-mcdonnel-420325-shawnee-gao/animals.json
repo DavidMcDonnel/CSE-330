@@ -1,0 +1,90 @@
+[
+    {
+        "age": "3 months",
+	"type":"cat", 
+        "breed": "Tabby",
+	"coat":"black", 
+        "imageUrl": "http://www.pets4homes.co.uk/images/classifieds/2013/06/12/330350/large/white-black-tabby-kittens-friendly-8-week-51b857c4e5270.JPG", 
+        "name": "Whiskers", 
+        "snippet": ""
+    }, 
+    {
+        "age": "3 months",
+	"type":"cat", 
+        "breed": "Tabby",
+	"coat":"calico", 
+        "imageUrl": "http://dognkittycity.org/images/com_petlist/full/s271a2437134m5280450.jpg", 
+        "name": "Fluffy", 
+        "snippet": ""
+    }, 
+    {
+        "age": "2 months", 
+        "type": "cat", 
+        "breed": "Persian",
+	"coat":"white/grey", 
+        "imageUrl": "http://catswallpaperhd.us/wp-content/uploads/2014/07/grey-persian-cats-wallpaper-grey-and-white-persian-kittens-wallpaper-cats-wallpaper-hd-awesome.jpg", 
+        "name": "Frumpy", 
+        "snippet": ""
+    }, 
+    {
+        "age": "2 months", 
+        "type": "cat",
+	"breed": "Persian",
+	"coat": "black", 
+        "imageUrl": "http://media-cache-ak0.pinimg.com/236x/12/83/39/128339876ea363ebcb590f80098ff4b6.jpg", 
+        "name": "Grumpy", 
+        "snippet": ""
+    }, 
+    {
+        "age": "1 month", 
+        "type": "dog", 
+        "breed": "Golden Retriever",
+	"coat": "Golden", 
+        "imageUrl": "http://www.freeallimages.com/wp-content/uploads/2014/10/golden-retriever-2.jpg", 
+        "name": "Daisey", 
+        "snippet": ""
+    }, 
+    {
+        "age": "1 month", 
+        "type": "dog", 
+        "breed": "Husky",
+	"coat": "white/grey", 
+        "imageUrl": "http://www.diamondtsiberians.com/callie_grey_girl_3.jpg", 
+        "name": "Sparky", 
+        "snippet": ""
+    }, 
+    {
+        "age": "3 months", 
+        "type": "dog", 
+        "breed": "Akita",
+	"coat": "yellow/white", 
+        "imageUrl": "http://www.puppy-training-solutions.com/image-files/akita-puppy-on-grass-000016746590.jpg", 
+        "name": "Rebel", 
+        "snippet": ""
+    }, 
+    {
+        "age": "2 months", 
+        "type": "dog", 
+        "breed": "Golden-Doodle",
+	"coat": "golden/white", 
+        "imageUrl": "http://www.eaglecrosskennel.net/8-4-09_078.JPG", 
+        "name": "Chester", 
+        "snippet": ""
+    }, 
+    {
+        "age": "2 years", 
+        "type": "Red Panda",
+	"coat": "red/white", 
+        "imageUrl": "http://clintprints.files.wordpress.com/2013/07/graceful-red-panda-is-sitting-on-tree.jpg", 
+        "name": "Sammie", 
+        "snippet": ""
+    }, 
+    {
+        "age": "2 years", 
+        "type": "Red Panda", 
+        "coat": "red/white", 
+        "imageUrl": "http://fc04.deviantart.net/fs71/i/2013/055/0/9/red_panda_stock_8_by_hotnstock-d5w2jt2.jpg", 
+        "name": "Susie", 
+        "snippet": ""
+    } 
+]

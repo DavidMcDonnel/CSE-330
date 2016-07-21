@@ -1,0 +1,7 @@
+{"cats":[
+    {"firstName":"John", "price":"Doe"},
+    {"firstName":"Anna", "price":"Smith"},
+    {"firstName":"Peter", "price":"Jones"}
+]}
+Dogs:
+Fishes:

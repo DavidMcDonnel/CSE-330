@@ -1,0 +1,8 @@
+Regex Demo
+
+1)\bhello world\b
+
+2)[aeiouAEIOU]{3}
+
+3)\b([A-Z]{2})([0-9]{3,4})\b
+

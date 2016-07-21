@@ -1,0 +1,9 @@
+David McDonnel WUID#: 420325
+Stephanie Cho WUID#: 425757
+
+http://ec2-54-68-21-15.us-west-2.compute.amazonaws.com/~dmcdonnel/home.php
+can log in as test with password test
+
+For our creative portion we created a user's page that displays all the users posts with links to them.
+This page can be  accessed by clicking their username on any other page on the site.
+You are also able to navigate through the site solely by clicking on either articles, buttons or usernames (no typing in url's to get to different pages).

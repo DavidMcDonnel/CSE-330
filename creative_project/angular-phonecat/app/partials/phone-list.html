@@ -1,0 +1,220 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2">
+      <!--Sidebar content-->
+
+      Search: <input ng-model="query">
+      Sort by:
+      <select ng-model="orderProp">
+        <option value="name">Alphabetical</option>
+        <option value="age">Newest</option>
+        <option value="RAM">RAM</option>
+        <option value="talktime">Talk Time</option>
+        <option value="standbytime">Standby Time</option>
+        <option value="weight">Weight</option>
+      </select>
+      
+      <select ng-model="phone_One">
+        <option ng-repeat="phone in phones">{{phone.name}}</option>
+      </select>
+      
+      <select ng-model="phone_Two">
+        <option ng-repeat="phone in phones">{{phone.name}}</option>
+      </select>
+
+    </div>
+    <div class="col-md-10">
+      <!--Body content-->
+
+      <ul class="phones">
+        <li ng-repeat="phone in phones | filter:query | orderBy:orderProp"
+            class="thumbnail phone-listing">
+          <a href="#/phones/{{phone.id}}" class="thumb"><img ng-src="{{phone.imageUrl}}"></a>
+          <a href="#/phones/{{phone.id}}">{{phone.name}}</a>
+          <p>{{phone.snippet}}</p>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</div>
+<div>
+  
+  <div class="left_Phone">
+    <table ng-model="phone_One_Info" ng-repeat="phone in phones | filter:phone_One">
+      <tr>
+        <td>Talk Time</td>
+        <td>{{phone.talktime}}</td>
+      </tr>
+      <tr>
+        <td>Standby Time</td>
+        <td>{{phone.standbytime}}</td>
+      </tr>
+      <tr>
+        <td>RAM</td>
+        <td>{{phone.RAM}}</td>
+      </tr>
+      <tr>
+        <td>Weight</td>
+        <td>{{phone.weight}}</td>
+      </tr>
+      <tr>
+        <td>Description</td>
+        <td>{{phone.snippet}}</td>
+      </tr>
+      <tr>
+        <td>OS</td>
+        <td>{{phone.android.os}}</td>
+      </tr>
+      <tr>
+        <td>UI</td>
+        <td>{{phone.android.ui}}</td>
+      </tr>
+      <tr>
+        <td>Camera</td>
+        <td>{{phone.camera.primary}}</td>
+      </tr>
+      <tr>
+        <td>Bluetooth</td>
+        <td>{{phone.connectivity.bluetooth}}</td>
+      </tr>
+      <tr>
+        <td>Cell</td>
+        <td>{{phone.connectivity.cell}}</td>
+      </tr>
+      <tr>
+        <td>GPS</td>
+        <td>{{phone.connectivity.gps | checkmark}}</td>
+      </tr>
+      <tr>
+        <td>Wifi</td>
+        <td>{{phone.connectivity.wifi}}</td>
+      </tr>
+      <tr>
+        <td>screenResolution</td>
+        <td>{{phone.display.screenResolution}}</td>
+      </tr>
+      <tr>
+        <td>screenSize</td>
+        <td>{{phone.display.screenSize}}</td>
+      </tr>
+      <tr>
+        <td>touchScreen</td>
+        <td>{{phone.display.touchScreen | checkmark}}</td>
+      </tr>
+      <tr>
+        <td>accelerometer</td>
+        <td>{{phone.hardware.accelerometer | checkmark}}</td>
+      </tr>
+      <tr>
+        <td>audioJack</td>
+        <td>{{phone.hardware.audioJack}}</td>
+      </tr>
+      <tr>
+        <td>CPU</td>
+        <td>{{phone.hardware.cpu}}</td>
+      </tr>
+      <tr>
+        <td>FM Radioe</td>
+        <td>{{phone.hardware.fmRadio | checkmark}}</td>
+      </tr>
+      <tr>
+        <td>Keyboard</td>
+        <td>{{phone.hardware.physicalKeyboard}}</td>
+      </tr>
+      <tr>
+        <td>Flash</td>
+        <td>{{phone.storage.flash}}</td>
+      </tr>
+    </table>
+  </div>
+  
+  <div class="right_Phone">
+    <table ng-repeat="phone in phones | filter:phone_Two">
+      <tr>
+        <td>Talk Time</td>
+        <td>{{phone.talktime}}</td>
+      </tr>
+      <tr>
+        <td>Standby Time</td>
+        <td>{{phone.standbytime}}</td>
+      </tr>
+      <tr>
+        <td>RAM</td>
+        <td>{{phone.RAM}}</td>
+      </tr>
+      <tr>
+        <td>Weight</td>
+        <td>{{phone.weight}}</td>
+      </tr>
+      <tr>
+        <td>Description</td>
+        <td>{{phone.snippet}}</td>
+      </tr>
+      <tr>
+        <td>OS</td>
+        <td>{{phone.android.os}}</td>
+      </tr>
+      <tr>
+        <td>UI</td>
+        <td>{{phone.android.ui}}</td>
+      </tr>
+      <tr>
+        <td>Camera</td>
+        <td>{{phone.camera.primary}}</td>
+      </tr>
+      <tr>
+        <td>Bluetooth</td>
+        <td>{{phone.connectivity.bluetooth}}</td>
+      </tr>
+      <tr>
+        <td>Cell</td>
+        <td>{{phone.connectivity.cell}}</td>
+      </tr>
+      <tr>
+        <td>GPS</td>
+        <td>{{phone.connectivity.gps | checkmark}}</td>
+      </tr>
+      <tr>
+        <td>Wifi</td>
+        <td>{{phone.connectivity.wifi}}</td>
+      </tr>
+      <tr>
+        <td>screenResolution</td>
+        <td>{{phone.display.screenResolution}}</td>
+      </tr>
+      <tr>
+        <td>screenSize</td>
+        <td>{{phone.display.screenSize}}</td>
+      </tr>
+      <tr>
+        <td>touchScreen</td>
+        <td>{{phone.display.touchScreen | checkmark}}</td>
+      </tr>
+      <tr>
+        <td>accelerometer</td>
+        <td>{{phone.hardware.accelerometer | checkmark}}</td>
+      </tr>
+      <tr>
+        <td>audioJack</td>
+        <td>{{phone.hardware.audioJack}}</td>
+      </tr>
+      <tr>
+        <td>CPU</td>
+        <td>{{phone.hardware.cpu}}</td>
+      </tr>
+      <tr>
+        <td>FM Radioe</td>
+        <td>{{phone.hardware.fmRadio | checkmark}}</td>
+      </tr>
+      <tr>
+        <td>Keyboard</td>
+        <td>{{phone.hardware.physicalKeyboard}}</td>
+      </tr>
+      <tr>
+        <td>Flash</td>
+        <td>{{phone.storage.flash}}</td>
+      </tr>
+    </table>
+  </div>
+</div>

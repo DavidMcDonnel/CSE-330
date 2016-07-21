@@ -1,0 +1,31 @@
+We will create a shopping website.
+
+Viewers will be able to visit the website and add items to their cart and checkout. Users can also create an account and be a VIP shopper. With an account they will have a wish list, and be granted access to coupons and discounts.
+
+Both outside customers and VIP shoppers will be able to click on an item and have a detailed view.
+
+Grading:
+
+Functionality:70
+
+Outside customers have full access to the website. They can create an account and login/logout: 10
+Users can add item to cart:5
+VIP Shoppers can view weekly discounts and coupons, they will also have a wish list:10
+Items can be sorted by alphabetical order, price, and other possible functionalities depending on product: 5
+Users can nagivate the website through clicking on different categories of products:15
+Items can be compared : 5
+Items have detailed view:10
+Have a quick view button:10
+
+Best Practices:10
+Website Security Guidlines i.e. html injections, password encrytion:5
+Pass W3 html validation:3
+User Friendly:2
+
+Creative Portion: 20 
+(ideas)
+users have user icons
+animation to sorting 
+allowing users to rate items and leave comments on items
+users receive emails on special offers
+sales section

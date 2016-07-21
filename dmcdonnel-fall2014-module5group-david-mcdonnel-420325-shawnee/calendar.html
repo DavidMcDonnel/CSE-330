@@ -1,0 +1,351 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+	<!--<script src='https://code.jquery.com/ui/1.9.1/jquery-ui.js'></script>-->
+	<!--<script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.js'></script>-->
+	<script src='fullcalendar-2.1.1/lib/jquery.min.js'></script>
+	<script src='fullcalendar-2.1.1/lib/moment.min.js'></script>
+	<script src='fullcalendar-2.1.1/fullcalendar.js'></script>
+	<link rel='stylesheet' href='./fullcalendar-2.1.1/fullcalendar.css' />
+	<link rel='stylesheet' href='./fullcalendar-2.1.1/fullcalendar.print.css' media='print'/>
+	
+	
+	<title>My Calendar</title>
+    
+</head>
+<body>
+<!--    <div id="prompt">-->
+<!--	<form method="post">-->
+<!--	    <input type="hidden" id="add_flag" name="add_flag" value="true"/>-->
+<!--	    <input type="text" default="Title" required="required" id="title"/>-->
+<!--	    <input type="text" default="time" required="required" id="time"/>-->
+<!--	</form>-->
+<!--    </div>-->
+ <!--   <div id="calEventDialog">
+	<form>
+	    <fieldset>
+	    <label for="eventTitle">Title</label>
+	    <input type="text" name="eventTitle" id="eventTitle" /><br>
+	    <label for="eventStart">Start Date</label>
+	    <input type="text" name="eventStart" id="eventStart" /><br>
+	    <label for="eventEnd">End Date</label>
+	    <input type="text" name="eventEnd" id="eventEnd" /><br>
+	    <input type="radio" id="allday" name="allday" value="1">
+	    Half Day
+	    <input type="radio" id="allday" name="allday" value="2">
+	    All Day
+	    </fieldset>
+	</form>
+    </div>
+    <div id="updateDeleteEvent" title="Edit/Remove Event" style="display:none">
+	<form>
+	  <fieldset>
+	    <label for="title">Event Description</label>
+	    <input type="text" name="title" id="title" class="text ui-widget-content ui-corner-all">
+	    <label for="start">Start Time</label>
+	    <input type="text" name="start" id="start" default="HH:mm:ss" class="text ui-widget-content ui-corner-all">
+	
+	    <!-- Allow form submission with keyboard without duplicating the dialog button 
+	    <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+	  </fieldset>
+	</form>
+    </div>
+    <div id="dialog" title="My dialog" style="display:none">
+	<form>
+	    <fieldset>
+		<label for="Id">Id</label>
+		<input type="text" name="id" id="id" class="text ui-widget-content ui-corner-all">
+		<label for="Id">Title</label>
+		<input type="text" name="title" id="title" class="text ui-widget-content ui-corner-all">
+	    </fieldset>
+	</form>
+    </div>-->
+    <div class="sign_in" ><!--style="display: block"-->
+	
+	<form method="post">
+	    <h2>Log In</h2>
+	    <input type="hidden" id="login_flag" name="login_flag" value="true"/>
+	    <input type="text" name="username_log" id="username_log"/>
+	    <input type="password" id="password_log" name="password_log"/>
+	    <input type="submit" value="Log In" id="login_btn"/>
+	
+	    <h2>Register</h2>
+	    <input type="hidden" id="register_flag" name="register_flag" value="true"/>
+	    <input type="text" name="username_reg" id="username_reg"/>
+	    <input type="password" id="password_reg" name="password_reg"/>
+	    <input type="text" id="email_reg" name="email_reg"/>
+	    <input type="submit" value="Register" id="register_btn"/>
+	</form>
+    </div>
+    <div class="sign_out" ><!--style="display: none"-->
+	<form method="post">
+	    <h2>Log Out</h2>
+	    <input type="hidden" id="logout_flag" name="logout_flag" value="true"/>
+	    <input type="submit" value="Log Out" id="logout_btn"/>
+	</form>
+	
+    </div>
+    <div id='calendar'></div>
+</body>
+<script type="text/javascript">
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) != -1) return c.substring(name.length, c.length);
+    }
+    return "";
+}
+	$(document).ready(function() {
+	    
+	    var date = new Date();
+	    var d = date.getDate();
+	    var m = date.getMonth();
+	    var y = date.getFullYear();
+	    var calendar = $('#calendar').fullCalendar({
+		header:
+		{
+			left: 'prev,next today',
+			center: 'title',
+			right: 'month,agendaWeek,agendaDay'
+		},
+		defaultView: 'month',
+		ignoreTimezone: false,
+		lazyFetching: false,
+		events: {url:'events.php',type:'POST'},
+		selectable: true,
+		selectHelper: true,
+		select: function(start, end, allDay)
+			{
+			var title = prompt('Event Title:');
+			if (title)
+			    {
+				calendar.fullCalendar('renderEvent',
+					{
+						title: title,
+						start: start,
+						end: end
+						//allDay: allDay
+					},
+					true // make the event "stick"
+				);
+				var day = moment(start).format('YYYY-MM-DD');
+				var time = moment(start).format('HH:mm:ss');
+				var addEvent_flag = 'true';
+				
+				var dataString = "start=" + encodeURIComponent(time) + "&title=" + encodeURIComponent(title) + "&day=" + encodeURIComponent(day) + "&addEvent_flag="+ encodeURIComponent(addEvent_flag);
+				var xmlHttp = new XMLHttpRequest(); // Initialize our XMLHttpRequest instance
+				xmlHttp.open("POST", "addEvent.php", true); // Starting a POST request (NEVER send passwords as GET variables!!!)
+				xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); // It's easy to forget this line for POST requests
+				xmlHttp.addEventListener("load", function(event){
+					var jsonData = JSON.parse(event.target.responseText); // parse the JSON into a JavaScript object
+					    alert(event.target.responseText);
+					if(jsonData.success){  // in PHP, this was the "success" key in the associative array; in JavaScript, it's the .success property of jsonData
+					    
+					}else{
+					    alert("You were not logged in.  "+jsonData.message);
+					}
+				}, false); // Bind the callback to the load event
+				xmlHttp.send(dataString); // Send the data
+			    }
+			    calendar.fullCalendar('unselect');
+			    },
+		    editable: true,
+		    eventClick: function(event,start,end,allDay)
+				{
+				    
+				//	var dialog,
+				//
+				//	title = $( "#title" ),
+				//	startTime = $( "#start" ),
+				//	eventType,
+				//	allFields = $( [] ).add( title ).add( start );
+				//   
+				//      dialog = $( "#updateDeleteEvent" ).dialog({
+				//	autoOpen: false,
+				//	height: 300,
+				//	width: 350,
+				//	modal: true,
+				//	buttons: {
+				//	  Cancel: function() {
+				//	    dialog.dialog( "close" );
+				//	  },
+				//	  "Delete": function(){
+				//	    eventType="deleteEvent.php";
+				//	  },
+				//	  "Edit": function(){
+				//	      eventType="updateEvent.php";
+				//	  }
+				//	},
+				//	close: function() {
+				//	  allFields.removeClass( "ui-state-error" );
+				//	}
+				//      });
+				//      dialog.dialog( "open" );
+					//function loadDialog(){
+					//    calendar.fullCalendar('select',event.start).dialog({
+					//	title: event.title,
+					//	buttons: {
+					//	    "Delete" : function() {
+					//		var eventType = "deleteEvent.php";
+					//		$(this).dialog("destroy"); },
+					//	    "Edit" : function() {
+					//		var eventType = "updateEvent.php";
+					//		$(this).dialog("destroy");
+					//	    },
+					//	    "Cancel" : function() {
+					//		$(this).dialog("destroy");
+					//	    }
+					//	}
+					//    });
+					//}
+					//function loadEditDialog(theDialogContainer) {
+					//    $(theDialogContainer).dialog({
+					//	title: "Edit"
+					//    });
+					//}
+				    var editEvent = prompt('Would you like to Edit this event? (y/n)');
+				    if(editEvent=='y')
+				    {
+					var title = prompt('Enter the new event title: ',event.title);
+					calendar.fullCalendar('removeEvents');
+					var day = moment(event.start).format('YYYY-MM-DD');
+					var time = moment(event.start).format('HH:mm:ss');
+					var editEvent_flag = 'true';
+					var dataString = "start=" + encodeURIComponent(time) + "&title=" + encodeURIComponent(title) + "&day=" + encodeURIComponent(day) + "&id=" + encodeURIComponent(event.id)  + "&editEvent_flag="+ encodeURIComponent(editEvent_flag) + "&token="+ getCookie('token');
+					var xmlHttp = new XMLHttpRequest(); // Initialize our XMLHttpRequest instance
+					xmlHttp.open("POST", "updateEvent.php", true); // Starting a POST request (NEVER send passwords as GET variables!!!)
+					xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); // It's easy to forget this line for POST requests
+					xmlHttp.addEventListener("load", function(event){
+						var jsonData = JSON.parse(event.target.responseText); // parse the JSON into a JavaScript object
+						if(jsonData.success){  // in PHP, this was the "success" key in the associative array; in JavaScript, it's the .success property of jsonData
+						}else{
+						    //alert("You were not logged in.  "+jsonData.message);
+						}
+					}, false); // Bind the callback to the load event
+					xmlHttp.send(dataString); // Send the data
+				    
+				    } else{
+					var deleteEvent = prompt('Would you like to Delete this event? (y/n)');
+					if(deleteEvent=='y'){
+					    var deleteEvent_flag = "true";
+					    calendar.fullCalendar('removeEvents');
+					    var dataString = "deleteEvent_flag=" + encodeURIComponent(deleteEvent_flag) + "&id=" + encodeURIComponent(event.id)  + "&editEvent_flag="+ encodeURIComponent(deleteEvent_flag) + "&token="+ getCookie('token');
+					    var xmlHttp = new XMLHttpRequest(); // Initialize our XMLHttpRequest instance
+					    xmlHttp.open("POST",'deleteEvent.php', true); // Starting a POST request (NEVER send passwords as GET variables!!!)
+					    xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); // It's easy to forget this line for POST requests
+					    xmlHttp.addEventListener("load", function(event){
+						    var jsonData = JSON.parse(event.target.responseText); // parse the JSON into a JavaScript object
+						    if(jsonData.success){  // in PHP, this was the "success" key in the associative array; in JavaScript, it's the .success property of jsonData
+						    }else{
+						    }
+					    }, false); // Bind the callback to the load event
+					    xmlHttp.send(dataString); // Send the data
+					    }
+				    }
+				    calendar.fullCalendar('renderEvent',
+					{
+						title: title,
+						start: start,
+						end: end
+						//allDay: allDay
+					},
+					true // make the event "stick"
+					);
+				    calendar.fullCalendar('addEventSource','events.php');
+				    calendar.fullCalendar('unselect');
+				},
+		    
+		    
+	    });
+	    
+	
+	
+	    $("#login_btn").click(function(){
+		var username_log = document.getElementById("username_log").value;
+		var password_log = document.getElementById("password_log").value;
+		var login_flag = document.getElementById("login_flag").value;
+	 
+		// Make a URL-encoded string for passing POST data:
+		var dataString = "username_log=" + encodeURIComponent(username_log) + "&password_log=" + encodeURIComponent(password_log) + "&login_flag=" + encodeURIComponent(login_flag);
+		
+		var xmlHttp = new XMLHttpRequest(); // Initialize our XMLHttpRequest instance
+		xmlHttp.open("POST", "login.php", true); // Starting a POST request (NEVER send passwords as GET variables!!!)
+		xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); // It's easy to forget this line for POST requests
+		xmlHttp.addEventListener("load", function(event){
+		    
+			var jsonData = JSON.parse(event.target.responseText); // parse the JSON into a JavaScript object
+			
+			if(jsonData.success){  // in PHP, this was the "success" key in the associative array; in JavaScript, it's the .success property of jsonData
+				alert("You've been Logged In!");
+				
+			}else{
+				alert("You were not logged in.  "+jsonData.message);
+				
+			}
+		}, false); // Bind the callback to the load event
+		xmlHttp.send(dataString); // Send the data
+		
+	    });
+    
+    
+	    $("#register_btn").click(function(){
+		
+		var username_reg = document.getElementById("username_reg").value;
+		var password_reg = document.getElementById("password_reg").value;
+		var email_reg = document.getElementById("email_reg").value;
+		var register_flag = document.getElementById("register_flag").value;
+    
+		var dataString = "username_reg=" + encodeURIComponent(username_reg) + "&password_reg=" + encodeURIComponent(password_reg) + "&email_reg=" + encodeURIComponent(email_reg) + "&register_flag=" + encodeURIComponent(register_flag);
+		
+		var xmlHttp = new XMLHttpRequest(); // Initialize our XMLHttpRequest instance
+		xmlHttp.open("POST", "userregistration.php", true); // Starting a POST request (NEVER send passwords as GET variables!!!)
+		xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); // It's easy to forget this line for POST requests
+		xmlHttp.addEventListener("load", function(event){
+			var jsonData = JSON.parse(event.target.responseText); // parse the JSON into a JavaScript object
+			//console.log("json parsed");
+			if(jsonData.success){  // in PHP, this was the "success" key in the associative array; in JavaScript, it's the .success property of jsonData
+				alert("You've been Logged In!");
+			}else{
+				alert("You were not logged in.  "+jsonData.message);
+			}
+		}, false); // Bind the callback to the load event
+		xmlHttp.send(dataString); // Send the data
+		
+		
+    
+	    });
+	
+	    $("#logout_btn").click(function(){
+		//console.log("in register btn");
+		
+		var logout_flag = document.getElementById("logout_flag").value;
+    
+		var dataString = "logout_flag=" + encodeURIComponent(logout_flag);
+		var xmlHttp = new XMLHttpRequest(); // Initialize our XMLHttpRequest instance
+		xmlHttp.open("POST", "login.php", true); // Starting a POST request (NEVER send passwords as GET variables!!!)
+		xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); // It's easy to forget this line for POST requests
+		xmlHttp.addEventListener("load", function(event){
+			var jsonData = JSON.parse(event.target.responseText); // parse the JSON into a JavaScript object
+			
+			//alert(event.target.responseText);//console.log("json parsed");
+			if(jsonData.success){  // in PHP, this was the "success" key in the associative array; in JavaScript, it's the .success property of jsonData
+				alert("You've been Logged out!");
+			}else{
+				alert("You were not logged out.  "+jsonData.message);
+			}
+		}, false); // Bind the callback to the load event
+		xmlHttp.send(dataString); // Send the data
+		
+    
+	    });
+	    });
+	    
+    
+    </script>
+</html>

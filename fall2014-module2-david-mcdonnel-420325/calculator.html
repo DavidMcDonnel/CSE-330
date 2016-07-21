@@ -1,0 +1,49 @@
+    <?php
+        $query1 = (float) $_POST['query1'];
+        $query2 = (float) $_POST['query2'];
+        function calculate($x,$y){
+            if ($_POST['calculation']=="addition"){
+                return $x+$y;
+            } elseif ($_POST['calculation']=="subtraction"){
+                return $x-$y;
+            } elseif ($_POST['calculation']=="multiplication"){
+                return $x*$y;
+            } elseif ($_POST['calculation']=="division"){
+                return $x/$y;
+            }
+        }
+        echo "<link rel='stylesheet' type='text/css' href='./StyleSheet.css' />"; 
+        echo "The answer is " . calculate($query1,$query2) . "!";
+    ?>
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>PHP Calculator</title>
+    <link rel="stylesheet" type="text/css" href="./StyleSheet.css"/>
+</head>
+
+<body class="calculator">
+    <form  method="post">
+        <div class="query">
+            <label>Input 1<input type="text" step=".000001" name="query1"/> </label>
+            <label>Input 2<input type="text" step=".000001" name="query2"/> </label>
+        </div>
+        
+        <br>
+        <br>
+        
+        <div class="radio">
+            <label>Addition<input       type="radio" name="calculation"    value="addition"/></label>
+            <label>Subtraction<input    type="radio" name="calculation"    value="subtraction"/></label>
+        <br>
+            <label>Multiplication<input type="radio" name="calculation"    value="multiplication"/></label>
+            <label>Division<input       type="radio" name="calculation"    value="division"/></label>
+        <br>
+        
+        <input type="submit" value= "calculate"/>
+        </div>
+    </form>
+</body>
+</html>

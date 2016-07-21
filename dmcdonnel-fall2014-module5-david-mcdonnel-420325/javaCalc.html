@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <title>PHP Calculator</title>
+        <link rel="stylesheet" type="text/css" href="./StyleSheet.css"/>
+    </head>
+
+    <body class="calculator">
+        <form name="calcForm">
+            <span class="span">
+                <label>Input 1                  <input  class="query"       type="text"         name="query"            id="input1"     placeholder="0"                         /> </label>
+                <label>Input 2                  <input  class="query"       type="text"         name="query"            id="input2"     placeholder="0"                         /> </label>
+                <br>
+                <br>
+                <label>Addition                 <input  class="radio"       type="radio"        name="calculation"      id="add"        value="addition"    checked="checked"   /></label>
+                <label>Subtraction              <input  class="radio"       type="radio"        name="calculation"      id="subtract"   value="subtraction"                     /></label>
+                <br>                    
+                <label>Multiplication           <input  class="radio"       type="radio"        name="calculation"      id="multiply"   value="multiplication"                  /></label>
+                <label>Division                 <input  class="radio"       type="radio"        name="calculation"      id="divide"     value="division"                        /></label>
+                <br>
+                <output id="output"></output>
+            </span>
+        </form>
+        <script type = "text/javascript">
+            document.getElementById('add').addEventListener("click",add,false);
+            document.getElementById('subtract').addEventListener("click",subtract,false);
+            document.getElementById('multiply').addEventListener("click",multiply,false);
+            document.getElementById('divide').addEventListener("click",divide,false);
+            document.getElementById('input1').addEventListener("keyup",getButton,false);
+            document.getElementById('input2').addEventListener("keyup",getButton,false);
+            
+            function getButton(){
+                for (var i=0;i<document.getElementsByName('calculation').length;i++) {
+                    if (document.getElementById('add').checked==true) {
+                        add();
+                    }else if (document.getElementById('subtract').checked==true){
+                        subtract();
+                    }else if (document.getElementById('multiply').checked==true){
+                        multiply();
+                    }else if (document.getElementById('divide').checked==true){
+                        divide();
+                    }
+                }
+            }
+            
+            function add(){
+                var x = parseFloat(document.getElementById('input1').value);
+                var y = parseFloat(document.getElementById('input2').value);
+                var ans=x+y;
+                document.getElementById('output').textContent="The answer is: "+ans;
+            }
+            function subtract(){
+                var x = parseFloat(document.getElementById('input1').value);
+                var y = parseFloat(document.getElementById('input2').value);
+                var ans=x-y;
+                document.getElementById('output').textContent="The answer is: "+ans;
+            }
+            function multiply(){
+                var x = parseFloat(document.getElementById('input1').value);
+                var y = parseFloat(document.getElementById('input2').value);
+                var ans =x*y;
+                document.getElementById('output').textContent="The answer is: "+ans;
+            }
+            function divide(){
+                var x = parseFloat(document.getElementById('input1').value);
+                var y = parseFloat(document.getElementById('input2').value);
+                var ans=x/y;
+                document.getElementById('output').textContent="The answer is: "+ans;
+            }
+        </script>
+    </body>
+</html>

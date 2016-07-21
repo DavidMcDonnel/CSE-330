@@ -1,0 +1,48 @@
+body.birthday{
+background: center;
+background-image: url('http://thisweekinnuclear.com/wp-content/uploads/2011/09/explosions-fires.jpg');
+background-size: 1000px 800px;
+background-repeat: no-repeat;
+background-color:#95B9C7;
+width:760px;
+margin:0 auto;
+padding: 0;
+font: Verdana, sans-serif;
+font-size: 30px;
+border: 200px;
+}
+body.search{
+text-align:center;
+background: center;
+background-color:#95B9C7;
+width:760px;
+margin:0 auto;
+padding: 0;
+font: Verdana, sans-serif;
+border: 200px;
+}
+div.heading{
+color: #FFA500;
+text-shadow: 2px 2px #ff0000;
+font: Verdana, sans-serif;
+text-align:center;
+}
+div.image{
+background-image: url('http://pmcvariety.files.wordpress.com/2013/10/mighty-morphin-power-rangers.jpg?w=670&h=377&crop=1');
+border-style: groove;
+border-color: red;
+border-width: 50px;
+-moz-border-radius: 10px;
+-webkit-border-radius: 10px;
+-moz-box-shadow:    3px 3px 5px 6px black;
+-webkit-box-shadow: 3px 3px 5px 6px black;
+box-shadow:         3px 3px 5px 6px black;
+text-align:center;
+}
+div.inspirational{
+color: #7FFF00;
+text-shadow: 2px 2px #ff0000;
+font: Verdana, sans-serif;
+font-size: 40px;
+text-align:center;
+}

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+
+<head>
+    <title>The Smallest Pet Shop EVA</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    
+	<script type="text/javascript" src="script.js"></script>
+</head>
+
+<body>
+    <div id="fb-root"></div>
+    <script>
+        window.fbAsyncInit = function() {
+            // init the FB JS SDK
+            FB.init({
+                appId: '168178453391240', // App ID from the app dashboard
+                status: true, // Check Facebook Login status
+                xfbml: true // Look for social plugins on the page
+            });
+            // Additional initialization code such as adding Event Listeners goes here
+            $(document).trigger('fbload');
+        };
+        // Load the SDK asynchronously
+        (function() {
+            // If we've already installed the SDK, we're done
+            if (document.getElementById('facebook-jssdk')) {
+                return;
+            }
+            // Get the first script element, which we'll use to find the parent node
+            var firstScriptElement = document.getElementsByTagName('script')[0];
+            // Create a new script element and set its id
+            var facebookJS = document.createElement('script');
+            facebookJS.id = 'facebook-jssdk';
+            // Set the new script's source to the source of the Facebook JS SDK
+            facebookJS.src = '//connect.facebook.net/en_US/all.js';
+            // Insert the Facebook JS SDK into the DOM
+            firstScriptElement.parentNode.insertBefore(facebookJS, firstScriptElement);
+        }());
+    </script>
+    <div id="content">
+        <div id="login" class="right link">
+            <div id="welcome">
+            </div>
+            <div id="loginLinks">
+                <a href="javaScript:void(0)" id="loginLink">login</a> | Login in with <a href="javaScript:void(0)" id="login-button-fb">Facebook</a> | <a href="javaScript:void(0)" id="registerLink">register</a>
+            </div>
+            <br><a href="javaScript:void(0)" id="logoutLink">logout</a>
+            <br><a href="javaScript:void(0)" id="logoutLink" style="display:none">logout</a>
+        </div>
+        <div id="login_popup" class="popup">
+            <br>
+            <br>
+            <div class="right close">x</div>
+            <div>--Login--
+                <br> Username:
+                <input type="text" id="loginUsername" placeholder="username" />
+                <br> Password:
+                <input type="password" id="loginPassword" placeholder="password" />
+                <br>
+                <button type="button" id="submitLogin">Login</button>
+            </div>
+        </div>
+        <div id="register_popup" class="popup">
+            <br>
+            <br>
+            <div class="right close">x</div>
+            <div>--Register--
+                <br> Username:
+                <input type="text" id="registerUsername" placeholder="username" />
+                <br> Password:
+                <input type="password" id="registerPassword" placeholder="password" />
+                <br> Confirm Password:
+                <input type="password" id="confirmPassword" placeholder="confirm password" />
+           	<br>
+		For Text Nofications, please enter your number in the following format:
+		<input type = "text" id="phone" placeholder="+19998887777"/>
+		 <br>
+                <button type="button" id="submitRegister">Register</button>
+ 
+	</div>
+        </div>
+	<div>
+	<form action = "twilio.php" method = "POST">
+	<input type = "submit">send text</input>
+	</form>
+	</div>
+        <div id="intro">
+            Welcome to
+            <br>
+            <b>S&D Pets</b>
+        </div>
+        <!--<div id="edit_about-us" class="popup">
+            <br>
+            <textarea id="new_about" rows="15" cols="44"></textarea>
+            <button id="submit_about" type="button">Update</button>
+        </div>-->
+        <div id="info" class="bottom">
+            <div id="home" class="one tab leftmost">
+                <div class="close">x</div>
+                <h1>About Us</h1>
+                <br>
+                <div id="about-us">
+                    The place to find your new best friend! All of our pets are breeded by experts. We're sure you will find the perfect one for you!
+                </div>
+            </div>
+            <div id="edit_menu" class="popup">
+                Item:
+                <input type="text" id="edit_item_name">
+                <br> Price:
+                <input type="number" id="edit_item_price" step="0.01">
+                <br>
+                <button type="button" id="submit_menu_edit">Update</button>
+            </div>
+            <div id="menu" class="two tab">
+                <div class="close">x</div>
+                <h1>Menu</h1>
+                <form id="menu_sort">
+                    Order By:
+                    <select id="sort">
+                        <option value="default">Alphabetical</option>
+                        <option value="price_inc">Price Low to High</option>
+                        <option value="price_dec">Price High to Low</option>
+                    </select>
+                    <input type="submit" value="Update">
+                </form>
+                <div class="left menu" id="items">
+                    <h3>Name</h3>
+                    <ul></ul>
+                </div>
+                <div class="left menu" id="prices">
+                    <h3>Price</h3>
+                    <ul></ul>
+                </div>
+		<div id="hidden" style="display: none">
+		    <input type="hidden" id = "animal_id" value="">
+		</div>
+                <div class="left" id="description"><img src=http://encdr.com/wp-content/uploads/2016/07/fatcat1.jpg>Click on an item for a photo, reviews, and a description.</div>
+            </div>
+            <div id="order" class="four tab rightmost">
+                <div class="close">x</div>
+                <h1>Buy a Cat</h1>
+                <form id="order_sort">
+                    Category:
+                    <select id="order_cat">
+                        <option value="default">All</option>
+                        <option value="cats">Cats</option>
+                        <option value="dogs">Dogs</option>
+                        <option value="fish">Fish</option>
+                    </select>
+                    Order By:
+                    <select id="order_sort">
+                        <option value="default">Alphabetical</option>
+                        <option value="price_inc">Price Low to High</option>
+                        <option value="price_dec">Price High to Low</option>
+                    </select>
+                    <input type="submit" value="Update">
+                </form>
+                <div class="left menu" id="order_items">
+                    <h3>Item</h3>
+                    <ul></ul>
+                </div>
+                <div class="left menu" id="order_prices">
+                    <h3>Price</h3>
+                    <ul></ul>
+                </div>
+                <div class="left" id="order_box">
+                    <form id="order_form">
+                        Name:
+                        <input type="text" name="order_name">
+                        <br>
+                        <br>
+                        <br>
+                        <input type="submit" value="place my order" action = "twilio.php" method = "POST">
+                        <div id="order_message"></div>
+                    </form>
+                    <br>
+                    <br>
+                    <div class="left" id="item_rm"><b>Rm?</b>
+                        <ul></ul>
+                    </div>
+                    <div class="left" id="ordered_item"><b>Item:</b>
+                        <ul></ul>
+                    </div>
+                    <div class="right" id="item_cost"><b>Price:</b>
+                        <ul></ul>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="right" id="item_total"><b>Subtotal: </b>
+                        <br>$<span id="order_subtotal">0.00</span>
+                    </div>
+                    <br>
+                    <br>
+                </div>
+            </div>
+            <ul class="table nav">
+                <li class="cell">
+                    <div name="home" class="one">
+                        <br>About Us</div>
+                </li>
+                <li class="cell">
+                    <div name="menu" class="two">
+                        <br>Meet Our Pets</div>
+                </li>
+                <!--<li class="cell">
+                    <div name="order" class="four">
+                        <br>I Want a Pet!</div>
+                </li>-->
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>
+

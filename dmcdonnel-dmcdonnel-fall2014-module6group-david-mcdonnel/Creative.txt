@@ -1,0 +1,7 @@
+David McDonnel   WUID#: 420325
+Shawnee Gao WUID#: 425709
+
+For the creative portion, we added a feature that allows an admin to invite a user to a room. 
+This will alert the user that they have been invited and prompt them to accept or deny the request.
+
+http://ec2-54-68-21-15.us-west-2.compute.amazonaws.com:3456

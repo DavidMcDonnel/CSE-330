@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <title>Weather Widget</title>
+    <link rel="stylesheet" type="text/css" href="weather.css"/>
+
+</head>
+<body>
+    <div class="weather" id="weatherWidget">
+	<div class="weather-loc"></div>
+	<div class="weather-humidity"></div>
+	<div class="weather-temp"></div>
+	<img class="weather-tomorrow" />
+	<img class="weather-dayaftertomorrow" />
+    </div>
+    <form>
+        <input type="button" name="Update" value="Update" id="Update" onclick="fetchWeather()"/>
+    </form>
+</body>
+   <script type="text/javascript">
+    function fetchWeather(){
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("GET","http://classes.engineering.wustl.edu/cse330/content/weather_json.php",true);
+        xmlHttp.addEventListener("load", ajaxCallBack, false);
+        xmlHttp.send(null);
+    }
+    function ajaxCallBack(event){
+        var jsonData = JSON.parse(event.target.responseText);
+        
+        var loc= document.getElementById("weatherWidget").getElementsByClassName("weather-loc")[0];
+        var city = jsonData.location.city;
+        var state = jsonData.location.state;
+        loc.innerHTML = "<strong>"+city+"</strong>"+" "+state;
+        
+        var temp=document.getElementsByClassName("weather-temp")[0];
+        var temperature=jsonData.current.temp;
+        temp.innerHTML=temperature;
+        
+        var hum=document.getElementsByClassName("weather-humidity")[0];
+        var humidity=jsonData.atmosphere.humidity;
+        hum.innerHTML=humidity;
+        
+        var tom=document.getElementsByClassName("weather-tomorrow")[0];
+        var c=jsonData.tomorrow.code;
+        var tomorrow="http://us.yimg.com/i/us/nws/weather/gr/" + c + "ds.png";
+        tom.src=tomorrow;
+        
+        var dayaftertom=document.getElementsByClassName("weather-dayaftertomorrow")[0];
+        var c2 = jsonData.dayafter.code;
+        var dayaftertomorrow="http://us.yimg.com/i/us/nws/weather/gr/" + c2 + "ds.png";
+        dayaftertom.src=dayaftertomorrow;
+        
+        
+    }
+    
+        document.addEventListener("DOMContentLoaded", fetchWeather, false);
+        document.getElementById("Update").addEventListener("click",fetchWeather,false);
+</script>
+
+
+</html>

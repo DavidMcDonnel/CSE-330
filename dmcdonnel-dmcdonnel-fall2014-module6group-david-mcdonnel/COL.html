@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8"/>
+<title>Chat Online!</title>
+<style type="text/css">
+body{
+	width: 760px; /* how wide to make your web page */
+	background-color: teal; /* what color to make the background */
+	margin: 0 auto;
+	padding: 0;
+	font:12px/16px Verdana, sans-serif; /* default font */
+	text-align: center;
+}
+div#main{
+	background-color: #FFF;
+	margin: 0;
+	padding: 10px;
+}
+#nav{
+    line-height:30px;
+    background-color:#eeeeee;
+    height:300px;
+    width:100px;
+    float:left;
+    padding:5px;
+    text-align: center
+}
+#section{
+    width:350px;
+    float:left;
+    padding:10px;
+    text-align: center;
+}
+a{
+	color: #006400;
+}
+
+</style>
+      <script src="/socket.io/socket.io.js"></script>
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script type ="text/javascript">
+   
+        var socketio = io.connect();
+        socketio.on("message_to_client",function(data) {
+           document.getElementById("chatlog").appendChild(document.createElement("hr"));
+           document.getElementById("chatlog").appendChild(document.createTextNode(data['message']));
+	   
+        });
+	
+	socketio.on("user_connect",function(rooms,user){
+		document.getElementById("users").innerHTML="";
+		var room = document.getElementById("room").value;
+		var parsed = JSON.parse(rooms);
+		if (user===document.getElementById("name").value) {
+			document.getElementById("chatroom").innerHTML="You've joined the "+parsed.names[parsed.names.length-1]+" chatroom";
+		}
+		for(var i = 0;i<parsed.names.length;i++){
+			if ((parsed.names[i]==room) && parsed.users[i]!==document.getElementById("name").value) {
+				document.getElementById("users").innerHTML+='</br> <a class=\x27privatemessagers\x27 onclick=\x27privateMessage(\x22'+parsed.users[i]+'\x22)\x27>'+parsed.users[i]+'</a>';
+			}
+		}
+	});
+	
+	socketio.on("discon_client", function(user,type){
+		if (document.getElementById("name").value===user) {
+			socketio.emit('kick_me',user);
+			if (type==="ban") {
+				document.getElementById("chatlog").appendChild(document.createElement("hr"));
+				document.getElementById("chatlog").appendChild(document.createTextNode("You have been banned by the admin"));
+			} else{
+				document.getElementById("chatlog").appendChild(document.createElement("hr"));
+				document.getElementById("chatlog").appendChild(document.createTextNode("You have been kicked by the admin"));
+			}
+			document.getElementById("room").value="global";
+			document.getElementById("users").innerHTML="";
+			document.getElementById("chatroom").innerHTML="You've joined the global chatroom";
+		}
+	});
+	
+	socketio.on("sentPrivateMessage", function(message,username,otherUser){
+		if (username===document.getElementById("name").value) {
+			
+			var private_messaging = document.getElementsByClassName("private_message");
+			for (var i =0; i<private_messaging.length;i++){
+				private_messaging[i].style.visibility="visible";
+			}
+		document.getElementById("user_to_private_message").value=otherUser;
+		document.getElementById("private_message_log").appendChild(document.createElement("hr"));
+		document.getElementById("private_message_log").appendChild(document.createTextNode(message));
+		}
+		
+	});
+	socketio.on('user_invite',function(user,admin,room){
+		if (document.getElementById("name").value===user) {
+			var ans = window.confirm(admin+" has invited you to join room "+room+". Would you like to accept?");
+			if (ans===true) {
+				socketio.emit('private_override',user,room);
+			}
+		}
+	});
+   
+        function sendMessage(){
+		var usr = document.getElementById("name").value;
+		var msg = document.getElementById("message_input").value;
+		 socketio.emit("message_to_server", {message:usr+": "+msg});
+        }
+	
+	function privateMessage(user){
+		var private_messaging = document.getElementsByClassName("private_message");
+		document.getElementById("user_to_private_message").value=user;
+		for (var i =0; i<private_messaging.length;i++){
+			private_messaging[i].style.visibility="visible";
+		}
+	}
+	
+	function sendPrivateMessage() {
+		var usr = document.getElementById("name").value;
+		var msg = document.getElementById("private_message").value;
+		var to_usr = document.getElementById("user_to_private_message").value;
+		document.getElementById("private_message_log").appendChild(document.createElement("hr"));
+		document.getElementById("private_message_log").appendChild(document.createTextNode(usr+": "+msg));
+		socketio.emit("private_message",{message:usr+": "+msg},{username:to_usr},{usr:usr});
+	}
+	
+	function createPrivateRoom(){
+		var room = document.getElementById("new_private_chatroom").value;
+		var room = document.getElementById("room").value=room;
+		var room_pass = document.getElementById("new_password").value;
+		var admin = document.getElementById("name").value;
+		var data = [room,room_pass,admin];
+		document.getElementById("chatroom").innerHTML="You've joined the "+document.getElementById("new_private_chatroom").value+" chatroom";
+		var admin_items = document.getElementsByClassName("admin");
+		for (var i = 0; i< admin_items.length; i++){
+			admin_items[i].style.visibility="visible";
+		}
+		socketio.emit('create_private_room', room,room_pass,admin);
+	}
+	
+	function kick(){
+		var user = document.getElementById("kick_name").value;
+		var admin = document.getElementById("name").value;
+		socketio.emit("kick_user",user,admin);
+	}
+	
+	function ban(){
+		var user = document.getElementById("ban_name").value;
+		var admin = document.getElementById("name").value;
+		socketio.emit("ban_user",user, admin);
+	}
+	
+	function invite(){
+		var user = document.getElementById("user_invited").value;
+		var admin = document.getElementById("name").value;
+		var room = document.getElementById("room").value;
+		socketio.emit('invite', user,admin,room);
+	}
+	
+	function joinPrivateRoom(){
+		var room = document.getElementById("new_private_chatroom").value;
+		var room = document.getElementById("room").value=room;
+		var room_pass = document.getElementById("new_password").value;
+		var user = document.getElementById("name").value;
+		document.getElementById("attempted").value=room;
+		socketio.emit('join_private_room', room,room_pass,user);
+	}
+	
+	function createRoom(){
+		var room = document.getElementById("new_chatroom").value;
+		var room = document.getElementById("room").value=room;
+		document.getElementById("chatroom").innerHTML="You've joined the "+room+" chatroom";
+		socketio.emit('create_room', room);
+	}
+	
+	function joinRoom(){
+		var room = document.getElementById("new_chatroom").value;
+		var room = document.getElementById("room").value=room;
+		document.getElementById("attempted").value=room;
+		socketio.emit('join_room', room);
+	}
+	
+	function login() {
+		console.log("logging in");
+		var username = document.getElementById("formUser").value;
+		document.getElementById("name").value=username;
+		document.getElementById("chatroom").innerHTML="You've joined the global chatroom";
+		var login_items = document.getElementsByClassName("login");
+		for (var i = 0; i < login_items.length; i++){
+			if (login_items[i].style.visibility==="hidden") {
+				login_items[i].style.visibility="visible"	
+			}else{
+			login_items[i].style.visibility="hidden";
+			}
+		}
+		console.log("emitting to socket");
+		socketio.emit('user_login', username);
+	}
+        
+
+
+      </script>
+</head>
+<body><div id="main">
+	<input id="name" style="visibility: hidden" value ="">
+	<input id="room" style="visibility: hidden" value="">
+	<h2 class = "login" style ="visibility: hidden">Welcome to COL!</h2>
+	<div id="chatroom"></div>
+	<p class = "login" style ="visibility: hidden">These users are in your current room:</p>
+	<div id="users"></div>
+	<p class = "login" style ="visibility: hidden">Click usernames to send a private message!</p>
+	<input id="attempted" style="visibility: hidden" value ="">
+	<br/>
+	<br/>
+	<div id="login">
+		<input type="hidden" name="login_flag" value="true" id="login_flag">
+		<label class = "login" style ="visibility: visible">Username:</label><input type="text" name="formUser" id="formUser" class="login" style="visibility: visible">
+		<input type="submit" name="login" value="log in" id="login_btn" class="login" style="visibility: visible">
+	</div>
+	<div id="private_room">
+		<h3 class = "login" style ="visibility: hidden">Create a Private Room</h3>
+		<label class = "login" style ="visibility: hidden">Room:</label><input type="text" name = "new_private_chatroom" id="new_private_chatroom" class="login" style="visibility: hidden">
+		<label class = "login" style ="visibility: hidden">Password:</label><input type="password" name = "new_password" id = "new_password" class="login" style="visibility: hidden">
+		<input type="submit" name = "create private room" value="Create private room" class="login" style="visibility: hidden" onclick="createPrivateRoom()">
+		<input type="submit" name = "join private room" value="Join private room" class="login" style="visibility: hidden" onclick="joinPrivateRoom()">
+	</div>
+	<div id="public_room">
+		<h3 class = "login" style ="visibility: hidden">Create a Public Room</h3>
+		<label class = "login" style ="visibility: hidden">Room:</label><input type="text" name = "new_chatroom" id="new_chatroom" class="login" style="visibility: hidden">
+		<input type="submit" name = "create room" value="Create room" class="login" style="visibility: hidden" onclick="createRoom()">
+		<input type="submit" name = "join room" value="Join public room" class="login" style="visibility: hidden" onclick="joinRoom()">
+	</div>
+	<div id="admin_powers">
+		<input type = "text" name="kick" style="visibility: hidden" class="admin" id="kick_name">
+		<input type = "submit" name ="kick_btn" style="visibility: hidden" onclick = "kick()" class="admin" id="kick_btn" value="Kick User">
+			<br>
+		<input type = "text" name="ban" style="visibility: hidden" class="admin" id="ban_name">
+		<input type = "submit" name ="ban_btn" style="visibility: hidden" onclick = "ban()" class="admin" id="ban_btn" value="Ban User">
+			<br>
+		<input type = "text" name = "invite" style="visibility: hidden" class="admin" id="user_invited">
+		<input type = "submit" name ="ban_btn" style="visibility: hidden" onclick = "invite()" class="admin" id="invite_btn" value="Invite User">
+	</div>
+	<nav class="login" style="visibility: hidden"></nav>
+	<section>
+	<div id="chatlog" class = "login" style="visibility: hidden"></div>
+        <input type="text" id="message_input" class = "login" style="visibility: hidden"/>
+        <button onclick="sendMessage()" class = "login" style="visibility: hidden">send</button>
+	</section>
+	<div id="private_box" style="visibility: hidden" class="private_message">
+			<h3 style="visibility: hidden" class="private_message">Private Messaging</h3>
+			<div id="private_message_log"></div>
+			<input type="hidden" value="" id="user_to_private_message">
+			<div id="user_to_message"></div>
+			<input type="text" id="private_message" class="private_message" style="visibility: hidden">
+			<input type="button" value="Send" class="private_message" style="visibility: hidden" onclick="sendPrivateMessage()">
+		
+	</div>
+        
+</div>
+<script>
+	document.getElementById("login_btn").addEventListener("click", login ,false);
+</script>
+
+</body>
+</html>

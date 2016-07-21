@@ -1,0 +1,8 @@
+David McDonnel         WUID# 420325
+Shawnee Gao            WUID# 425709
+
+Instance: http://ec2-54-68-21-15.us-west-2.compute.amazonaws.com/~dmcdonnel/Login.php
+
+Login with username dmcdonnel.
+
+Added mailing feature when files uploaded or downloaded. The mail is sent to my personal email.
